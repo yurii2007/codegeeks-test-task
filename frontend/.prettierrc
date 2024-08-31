@@ -1,0 +1,15 @@
+{
+  "plugins": ["@trivago/prettier-plugin-sort-imports"],
+  "singleQuote": false,
+  "importOrder": [
+    "<THIRD_PARTY_MODULES>",
+    "@lib/",
+    "@utils/",
+    "@hooks/",
+    "@components/",
+    "(assets/|public/)",
+    "(.css)"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
+}
