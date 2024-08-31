@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:latest
+    env_file:
+      - ./.env
+    container_name: postgres_db_codegeeks
+    ports:
+      - '5432:5432'
+    volumes:
+      - codegeeks_data:/var/lib/postgresql/data
+
+volumes:
+  codegeeks_data:
