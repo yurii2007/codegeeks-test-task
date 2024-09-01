@@ -1,6 +1,7 @@
 import { BaseEntity } from "src/common/Database/entities/base.entity";
 import { Location } from "src/Location/entities/location.entity";
-import { Column, Entity, JoinColumn, OneToOne } from "typeorm";
+import { User } from "src/User/entities/user.entity";
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from "typeorm";
 
 @Entity({ name: "Event" })
 export class Event extends BaseEntity {
@@ -25,4 +26,7 @@ export class Event extends BaseEntity {
     nullable: false,
   })
   category: string;
+
+  @ManyToOne(() => User, (user) => user.events)
+  owner: User;
 }

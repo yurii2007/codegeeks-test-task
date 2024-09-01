@@ -18,6 +18,7 @@ const envFilePath = resolve(__dirname, "..", "..", "..", ".env");
         POSTGRES_PASSWORD: Joi.string().required(),
         POSTGRES_DATABASE: Joi.string().required(),
         RUN_MIGRATIONS: Joi.boolean().required(),
+        JWT_KEY: Joi.string().required(),
       }),
     }),
   ],
