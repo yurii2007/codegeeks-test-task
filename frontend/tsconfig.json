@@ -25,7 +25,13 @@
     "paths": {
       "@utils/*": [
         "utils/*"
-      ]
+      ],
+      "@hooks/*": [
+        "hooks/*"
+      ],
+      "@components/*": [
+        "app/components/*"
+      ],
     }
   },
   "include": [

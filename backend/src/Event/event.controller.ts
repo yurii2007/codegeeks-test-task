@@ -52,7 +52,7 @@ export class EventController {
     @ReqUser() user: AccessTokenPayload,
   ) {
     if (isNaN(+eventId)) throw new BadRequestException("Invalid Event id");
-    await this.eventService.deleteEvent(+eventId, user.userId);
+    await this.eventService.deleteEvent(+eventId, +user.userId);
     return;
   }
 }

@@ -1,7 +1,9 @@
+import AuthProvider from "./components/providers/AuthProvider";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import { ThemeProvider } from "@mui/material/styles";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Link from "next/link";
 
 import theme from "@utils/theme";
 
@@ -16,14 +18,25 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  auth,
 }: Readonly<{
   children: React.ReactNode;
+  auth: React.ReactNode;
 }>) {
   return (
     <html lang="en">
       <body className={inter.className}>
         <AppRouterCacheProvider options={{ key: "css", prepend: true }}>
-          <ThemeProvider theme={theme}>{children}</ThemeProvider>
+          <ThemeProvider theme={theme}>
+            <AuthProvider>
+              {children}
+              <div>
+                <Link href="/login">login</Link>
+                <Link href="/register">register</Link>
+              </div>
+              {auth}
+            </AuthProvider>
+          </ThemeProvider>
         </AppRouterCacheProvider>
       </body>
     </html>

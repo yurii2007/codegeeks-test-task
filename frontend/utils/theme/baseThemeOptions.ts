@@ -1,8 +1,11 @@
 import { ThemeOptions } from "@mui/material";
+import { paper } from "./components/paper";
 
 export const baseThemeOptions: ThemeOptions = {
   breakpoints: {},
-  components: {},
+  components: {
+    MuiPaper: paper,
+  },
   typography: {
     button: {
       fontWeight: 600,
