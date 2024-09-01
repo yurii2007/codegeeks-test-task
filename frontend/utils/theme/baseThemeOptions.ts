@@ -1,10 +1,12 @@
-import { ThemeOptions } from "@mui/material";
+import { link } from "./components/link";
 import { paper } from "./components/paper";
+import { ThemeOptions } from "@mui/material";
 
 export const baseThemeOptions: ThemeOptions = {
   breakpoints: {},
   components: {
     MuiPaper: paper,
+    MuiLink: link,
   },
   typography: {
     button: {

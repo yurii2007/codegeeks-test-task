@@ -7,6 +7,8 @@ import Link from "next/link";
 
 import theme from "@utils/theme";
 
+import Header from "@components/Header";
+
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -29,6 +31,7 @@ export default function RootLayout({
         <AppRouterCacheProvider options={{ key: "css", prepend: true }}>
           <ThemeProvider theme={theme}>
             <AuthProvider>
+              <Header />
               {children}
               <div>
                 <Link href="/login">login</Link>
