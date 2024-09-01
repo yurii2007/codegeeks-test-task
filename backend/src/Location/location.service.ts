@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { CreateLocationDto } from "./location.dto";
+import { CreateLocationDto } from "./dto/createLocation.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Location } from "./entities/location.entity";
 import { Repository } from "typeorm";

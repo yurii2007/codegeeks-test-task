@@ -1,12 +1,14 @@
 import { Type } from "class-transformer";
 import {
   IsDate,
+  IsEnum,
   IsNotEmpty,
   IsNotEmptyObject,
   IsString,
   ValidateNested,
 } from "class-validator";
-import { CreateLocationDto } from "src/Location/location.dto";
+import { Categories } from "src/common/types/CategoryEnum";
+import { CreateLocationDto } from "src/Location/dto/createLocation.dto";
 
 export class CreateEventDto {
   @IsNotEmpty()
@@ -25,4 +27,8 @@ export class CreateEventDto {
   @IsNotEmptyObject()
   @ValidateNested()
   location: CreateLocationDto;
+
+  @IsNotEmpty()
+  @IsEnum(Categories)
+  category: string;
 }
