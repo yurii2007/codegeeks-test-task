@@ -22,8 +22,11 @@ export class EventService {
     private userService: UserService,
   ) {}
 
-  async getEvents() {
-    return [];
+  async getEvents(userId: number) {
+    const events = await this.eventRepo.find({
+      where: { owner: { id: userId } },
+    });
+    return events;
   }
 
   async createEvent(eventData: CreateEventDto, userId: number) {
@@ -39,6 +42,7 @@ export class EventService {
         category: "category",
         owner,
       });
+      delete event.owner;
       return event;
     } catch (error) {
       console.log(error);
@@ -66,6 +70,13 @@ export class EventService {
     const updatedEvent = await this.eventRepo.save({ ...event, ...eventData });
 
     return updatedEvent;
+  }
+
+  async getEventById(eventId: number, userId: number) {
+    await this.checkOwner(eventId, userId);
+
+    const event = await this.eventRepo.findOne({ where: { id: eventId } });
+    return event;
   }
 
   async deleteEvent(eventId: number, userId: number) {

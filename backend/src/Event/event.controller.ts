@@ -25,7 +25,13 @@ export class EventController {
 
   @Get("/")
   async getEvents(@ReqUser() user: User) {
-    return [];
+    return this.eventService.getEvents(user.id);
+  }
+
+  @Get(":eventId")
+  async getEventById(@ReqUser() user: User, @Param("eventId") eventId: string) {
+    if (isNaN(+eventId)) throw new BadRequestException("Invalid Event id");
+    return this.eventService.getEventById(+eventId, user.id);
   }
 
   @Post("/")

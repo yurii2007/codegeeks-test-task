@@ -21,5 +21,6 @@ const FormInput = React.forwardRef<
     </Box>
   );
 });
+FormInput.displayName = "FormInput";
 
 export default FormInput;

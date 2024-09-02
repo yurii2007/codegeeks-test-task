@@ -1,9 +1,9 @@
 import AuthProvider from "./components/providers/AuthProvider";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
+import Box from "@mui/material/Box";
 import { ThemeProvider } from "@mui/material/styles";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Link from "next/link";
 
 import theme from "@utils/theme";
 
@@ -27,16 +27,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={inter.className} style={{ minHeight: "100vh" }}>
         <AppRouterCacheProvider options={{ key: "css", prepend: true }}>
           <ThemeProvider theme={theme}>
             <AuthProvider>
               <Header />
-              {children}
-              <div>
-                <Link href="/login">login</Link>
-                <Link href="/register">register</Link>
-              </div>
+              <Box component="main" sx={{ marginTop: "88px" }}>
+                {children}
+              </Box>
               {auth}
             </AuthProvider>
           </ThemeProvider>

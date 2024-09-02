@@ -1,7 +1,7 @@
 "use client";
 
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Paper from "@mui/material/Paper";
 import React, { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { ILoginData } from "types/login.type";
@@ -18,27 +18,28 @@ const registerFormScheme = z.object({
     .min(8, "The password must contain at least 8 characters"),
 });
 
-type RegisterFormProps = {};
+type RegisterFormProps = {
+  onClose: () => void;
+};
 
 const RegisterForm = React.forwardRef<HTMLFormElement, RegisterFormProps>(
-  (props, ref) => {
+  ({ onClose }, ref) => {
     const { handleSubmit, register, formState } = useForm<
       z.infer<typeof registerFormScheme>
     >({});
     const { register: submitRegister } = useAuth();
 
-    const submit = useCallback(async (credentials: ILoginData) => {
-      await submitRegister(credentials);
-    }, []);
+    const submit = useCallback(
+      async (credentials: ILoginData) => {
+        await submitRegister(credentials);
+        onClose?.();
+      },
+      [onClose, submitRegister],
+    );
 
     return (
-      <Paper
+      <Box
         sx={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: "40vw",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
@@ -62,9 +63,11 @@ const RegisterForm = React.forwardRef<HTMLFormElement, RegisterFormProps>(
         <Button type="submit" variant="contained">
           Signup
         </Button>
-      </Paper>
+      </Box>
     );
   },
 );
+
+RegisterForm.displayName = "RegisterForm";
 
 export default RegisterForm;

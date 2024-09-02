@@ -1,8 +1,8 @@
 "use client";
 
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Paper from "@mui/material/Paper";
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ILoginData } from "types/login.type";
 import z from "zod";
@@ -18,27 +18,35 @@ const loginFormScheme = z.object({
     .min(8, "The password must contain at least 8 characters"),
 });
 
-type LoginFormProps = {};
+type LoginFormProps = {
+  onClose?: () => void;
+};
 
 const LoginForm = React.forwardRef<HTMLFormElement, LoginFormProps>(
-  (props, ref) => {
+  ({ onClose }, ref) => {
     const { handleSubmit, register, formState } = useForm<
       z.infer<typeof loginFormScheme>
     >({});
     const { login } = useAuth();
+    const [loading, setLoading] = useState<boolean>(false);
 
-    const submit = useCallback(async (credentials: ILoginData) => {
-      await login(credentials);
-    }, []);
+    const submit = useCallback(
+      async (credentials: ILoginData) => {
+        setLoading(true);
+        try {
+          await login(credentials);
+          onClose?.();
+        } catch (error) {
+        } finally {
+          setLoading(false);
+        }
+      },
+      [setLoading, login, onClose],
+    );
 
     return (
-      <Paper
+      <Box
         sx={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: "40vw",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
@@ -51,20 +59,24 @@ const LoginForm = React.forwardRef<HTMLFormElement, LoginFormProps>(
       >
         <Input
           {...register("username")}
+          disabled={loading}
           errorMessage={formState.errors.username?.message}
         />
 
         <Input
           {...register("password")}
+          disabled={loading}
           errorMessage={formState.errors.password?.message}
         />
 
-        <Button type="submit" variant="contained">
+        <Button disabled={loading} type="submit" variant="contained">
           Login
         </Button>
-      </Paper>
+      </Box>
     );
   },
 );
+
+LoginForm.displayName = "LoginForm";
 
 export default LoginForm;

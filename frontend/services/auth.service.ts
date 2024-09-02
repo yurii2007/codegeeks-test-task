@@ -12,8 +12,7 @@ class AuthService {
       userData,
     );
 
-    api.defaults.headers.common.Authorization = `Bearer ${data.accessToken}`;
-    return data.user;
+    return data;
   }
 
   async register(registerData: IRegisterData) {
@@ -22,8 +21,7 @@ class AuthService {
       registerData,
     );
 
-    api.defaults.headers.common.Authorization = `Bearer ${data.accessToken}`;
-    return data.user;
+    return data;
   }
 }
 

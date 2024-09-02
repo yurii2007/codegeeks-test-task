@@ -1,6 +1,6 @@
 import { Type } from "class-transformer";
 import {
-  IsDate,
+  IsDateString,
   IsEnum,
   IsNotEmpty,
   IsNotEmptyObject,
@@ -16,7 +16,7 @@ export class CreateEventDto {
   title: string;
 
   @IsNotEmpty()
-  @IsDate()
+  @IsDateString()
   date: Date;
 
   @IsNotEmpty()

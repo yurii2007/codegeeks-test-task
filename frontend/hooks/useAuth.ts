@@ -4,13 +4,14 @@ import authService from "services/auth.service";
 import { ILoginData } from "types/login.type";
 
 export const useAuth = () => {
-  const { user, setUser } = useAuthContext();
+  const { setUser, setAccessToken } = useAuthContext();
 
   const login = useCallback(
     async (credentials: ILoginData) => {
       try {
         const data = await authService.login(credentials);
-        setUser(data);
+        setUser(data.user);
+        setAccessToken(data.accessToken);
       } catch (error) {
         console.log(error);
       }
@@ -22,7 +23,8 @@ export const useAuth = () => {
     async (credentials: ILoginData) => {
       try {
         const data = await authService.register(credentials);
-        setUser(data);
+        setUser(data.user);
+        setAccessToken(data.accessToken);
       } catch (error) {
         console.log(error);
       }
@@ -30,5 +32,7 @@ export const useAuth = () => {
     [setUser],
   );
 
-  return { login, register };
+  const logout = useCallback(() => setUser(null), [setUser]);
+
+  return { login, register, logout };
 };

@@ -2,17 +2,18 @@
 
 import MobileMenu from "./MobileMenu";
 import NavList from "./NavList";
+import UserIndicator from "./UserIndicator";
 import MenuIcon from "@mui/icons-material/Menu";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import * as React from "react";
+import React from "react";
 
 interface HeaderProps {}
 
-const Header = (props: HeaderProps) => {
+const Header = ({}: HeaderProps) => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = React.useCallback(() => {
@@ -44,6 +45,8 @@ const Header = (props: HeaderProps) => {
         <Box sx={{ display: { xs: "none", sm: "block" } }}>
           <NavList />
         </Box>
+
+        <UserIndicator />
       </Toolbar>
       <MobileMenu handleClose={handleDrawerToggle} isOpen={mobileOpen} />
     </AppBar>
