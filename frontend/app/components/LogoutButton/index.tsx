@@ -10,7 +10,7 @@ const LogoutButton = () => {
   const { logout } = useAuth();
   return (
     <IconButton onClick={logout}>
-      <LogoutIcon />
+      <LogoutIcon color="error" />
     </IconButton>
   );
 };

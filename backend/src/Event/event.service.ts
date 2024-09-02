@@ -11,6 +11,7 @@ import { Repository } from "typeorm";
 import { UserService } from "src/User/user.service";
 import { UpdateEventDto } from "./dto/updateEvent.dto";
 import { Categories } from "src/common/types/CategoryEnum";
+import { GetEventsQueryDto } from "./dto/getEventsQuery.dto";
 
 const MAX_DISTANCE_DIFFERENCE = 2.5;
 
@@ -29,6 +30,39 @@ export class EventService {
     return events;
   }
 
+  async getSortedEvents(query: GetEventsQueryDto) {
+    const queryBuilder = this.eventRepo.createQueryBuilder("event");
+
+    if (query.fromDate) {
+      queryBuilder.where("event.date >= :fromDate", {
+        fromDate: query.fromDate,
+      });
+    }
+
+    if (query.toDate) {
+      queryBuilder.andWhere("event.date <= :toDate", {
+        toDate: query.toDate,
+      });
+    }
+
+    if (query.category) {
+      queryBuilder.andWhere("event.category = :category", {
+        category: query.category,
+      });
+    }
+
+    if (query.search) {
+      queryBuilder.andWhere(
+        "event.title ILIKE :search OR event.description ILIKE :search",
+        { search: `%${query.search}%` },
+      );
+    }
+
+    queryBuilder.limit(10);
+
+    return queryBuilder.getMany();
+  }
+
   async createEvent(eventData: CreateEventDto, userId: number) {
     try {
       const location = await this.locationService.createLocation(
@@ -39,7 +73,6 @@ export class EventService {
       const event = await this.eventRepo.save({
         ...eventData,
         location,
-        category: "category",
         owner,
       });
       delete event.owner;
@@ -122,7 +155,7 @@ export class EventService {
       .leftJoinAndSelect("event.location", "location")
       .leftJoinAndSelect("event.owner", "owner");
 
-    if (latitude && longitude) {
+    if (event.location || (latitude && longitude)) {
       query.andWhere(
         `(
         6371 * acos(
@@ -131,7 +164,11 @@ export class EventService {
           sin(radians(:latitude)) * sin(radians(location.latitude))
         ) <= :maxDistance
       )`,
-        { latitude, longitude, maxDistance: MAX_DISTANCE_DIFFERENCE },
+        {
+          latitude: latitude ?? event.location.latitude,
+          longitude: longitude ?? event.location.longitude,
+          maxDistance: MAX_DISTANCE_DIFFERENCE,
+        },
       );
     }
 

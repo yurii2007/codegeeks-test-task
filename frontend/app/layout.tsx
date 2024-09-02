@@ -32,7 +32,10 @@ export default function RootLayout({
           <ThemeProvider theme={theme}>
             <AuthProvider>
               <Header />
-              <Box component="main" sx={{ marginTop: "88px" }}>
+              <Box
+                component="main"
+                sx={{ marginTop: "88px", padding: ".5rem 1rem" }}
+              >
                 {children}
               </Box>
               {auth}

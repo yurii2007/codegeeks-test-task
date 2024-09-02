@@ -17,7 +17,9 @@ const FormInput = React.forwardRef<
       sx={{ display: "grid", gridTemplateRows: "1fr 20px", gap: ".25rem" }}
     >
       <TextField label={label} name={name} {...props} />
-      <Typography component="span">{errorMessage}</Typography>
+      <Typography fontSize=".875rem" component="span">
+        {errorMessage}
+      </Typography>
     </Box>
   );
 });

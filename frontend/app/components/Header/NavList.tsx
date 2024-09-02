@@ -1,6 +1,6 @@
-import { Link } from "@mui/material";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
+import Link from "next/link";
 import React from "react";
 
 import { navList } from "@lib/navList";
@@ -16,7 +16,16 @@ const NavList = () => {
     >
       {navList.map((item) => (
         <ListItem key={item.path} disablePadding>
-          <Link href={item.path}>{item.label}</Link>
+          <Link
+            style={{
+              color: "#FF4400",
+              whiteSpace: "nowrap",
+              textDecoration: "none",
+            }}
+            href={item.path}
+          >
+            {item.label}
+          </Link>
         </ListItem>
       ))}
     </List>

@@ -9,7 +9,14 @@ interface EventsListProps {
 
 const EventsList = ({ events }: EventsListProps) => {
   return (
-    <List>
+    <List
+      sx={{
+        display: "grid",
+        gridTemplateColumns: "repeat(4, minmax(150px, 1fr))",
+        rowGap: "1.5rem",
+        columnGap: "1rem",
+      }}
+    >
       {events.map((event) => (
         <EventPreviewBox event={event} key={event.id} />
       ))}

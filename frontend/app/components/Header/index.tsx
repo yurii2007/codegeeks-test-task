@@ -23,9 +23,9 @@ const Header = ({}: HeaderProps) => {
   return (
     <AppBar
       component="header"
-      sx={{ display: "flex", backgroundColor: "#006c27" }}
+      sx={{ display: "flex", backgroundColor: "#1D1D1D" }}
     >
-      <Toolbar>
+      <Toolbar sx={{ gap: "1.5rem" }}>
         <IconButton
           color="inherit"
           aria-label="open menu"

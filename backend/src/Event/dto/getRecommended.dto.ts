@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsDateString, IsEnum, IsNumber, IsOptional } from "class-validator";
+import { IsEnum, IsNumber, IsOptional } from "class-validator";
 import { Categories } from "src/common/types/CategoryEnum";
 
 export class GetRecommendedQueryDto {
@@ -17,12 +17,10 @@ export class GetRecommendedQueryDto {
   @Type(() => Number)
   longitude: number;
 
-  @IsDateString()
   @IsOptional()
   @Type(() => Date)
   startDate: string;
 
-  @IsDateString()
   @IsOptional()
   @Type(() => Date)
   endDate: string;

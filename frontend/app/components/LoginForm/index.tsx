@@ -2,8 +2,8 @@
 
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import React, { useCallback, useState } from "react";
-import { useForm } from "react-hook-form";
+import React, { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { ILoginData } from "types/login.type";
 import z from "zod";
 
@@ -26,23 +26,24 @@ const LoginForm = React.forwardRef<HTMLFormElement, LoginFormProps>(
   ({ onClose }, ref) => {
     const { handleSubmit, register, formState } = useForm<
       z.infer<typeof loginFormScheme>
-    >({});
+    >({
+      mode: "onBlur",
+    });
     const { login } = useAuth();
     const [loading, setLoading] = useState<boolean>(false);
 
-    const submit = useCallback(
-      async (credentials: ILoginData) => {
-        setLoading(true);
-        try {
-          await login(credentials);
-          onClose?.();
-        } catch (error) {
-        } finally {
-          setLoading(false);
-        }
-      },
-      [setLoading, login, onClose],
-    );
+    const submit: SubmitHandler<z.infer<typeof loginFormScheme>> = async (
+      credentials: ILoginData,
+    ) => {
+      setLoading(true);
+      try {
+        await login(credentials);
+        onClose?.();
+      } catch (error) {
+      } finally {
+        setLoading(false);
+      }
+    };
 
     return (
       <Box
@@ -56,16 +57,19 @@ const LoginForm = React.forwardRef<HTMLFormElement, LoginFormProps>(
         component="form"
         onSubmit={handleSubmit(submit)}
         ref={ref}
+        noValidate={false}
       >
         <Input
           {...register("username")}
           disabled={loading}
+          required
           errorMessage={formState.errors.username?.message}
         />
-
         <Input
           {...register("password")}
           disabled={loading}
+          required
+          type="password"
           errorMessage={formState.errors.password?.message}
         />
 

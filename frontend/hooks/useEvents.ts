@@ -11,7 +11,25 @@ const useEvents = () => {
     }
   }, []);
 
-  return { getEvents };
+  const getEventById = useCallback(async (eventId: number) => {
+    try {
+      const data = await eventService.getEventById(eventId);
+      return data;
+    } catch (error) {
+      return null;
+    }
+  }, []);
+
+  const getRecommendedEvents = useCallback(async (eventId: number) => {
+    try {
+      const data = await eventService.getRecommendedEvents(eventId);
+      return data;
+    } catch (error) {
+      return [];
+    }
+  }, []);
+
+  return { getEvents, getEventById, getRecommendedEvents };
 };
 
 export default useEvents;

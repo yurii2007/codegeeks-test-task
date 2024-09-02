@@ -1,14 +1,8 @@
 import Events from "./events";
 import React from "react";
 
-import ProtectedRoute from "@components/ProtectedRoute";
-
 const EventsPage = () => {
-  return (
-    <ProtectedRoute>
-      <Events />
-    </ProtectedRoute>
-  );
+  return <Events />;
 };
 
 export default EventsPage;
