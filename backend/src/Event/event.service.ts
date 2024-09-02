@@ -10,6 +10,9 @@ import { Event } from "./entities/event.entity";
 import { Repository } from "typeorm";
 import { UserService } from "src/User/user.service";
 import { UpdateEventDto } from "./dto/updateEvent.dto";
+import { Categories } from "src/common/types/CategoryEnum";
+
+const MAX_DISTANCE_DIFFERENCE = 2.5;
 
 @Injectable()
 export class EventService {
@@ -81,5 +84,63 @@ export class EventService {
 
     if (event.owner.id !== userId)
       throw new ForbiddenException("Access denied");
+  }
+
+  async getRecommendedEvents({
+    latitude,
+    longitude,
+    category,
+    startDate,
+    endDate,
+    eventId,
+  }: {
+    latitude: number | null;
+    longitude: number | null;
+    category: Categories;
+    startDate: Date | null;
+    endDate: Date | null;
+    eventId: number;
+  }): Promise<Event[]> {
+    const event = await this.eventRepo.findOne({
+      where: { id: eventId },
+      relations: ["location"],
+    });
+    if (!event) throw new BadRequestException("Event not found");
+    const query = this.eventRepo
+      .createQueryBuilder("event")
+      .leftJoinAndSelect("event.location", "location")
+      .leftJoinAndSelect("event.owner", "owner");
+
+    if (latitude && longitude) {
+      query.andWhere(
+        `(
+        6371 * acos(
+          cos(radians(:latitude)) * cos(radians(location.latitude)) * 
+          cos(radians(location.longitude) - radians(:longitude)) + 
+          sin(radians(:latitude)) * sin(radians(location.latitude))
+        ) <= :maxDistance
+      )`,
+        { latitude, longitude, maxDistance: MAX_DISTANCE_DIFFERENCE },
+      );
+    }
+
+    if (category) {
+      query.andWhere("event.category = :category", { category });
+    }
+
+    if (startDate && endDate) {
+      query.andWhere("event.date BETWEEN :startDate AND :endDate", {
+        startDate,
+        endDate,
+      });
+    } else if (startDate) {
+      query.andWhere("event.date >= :startDate", { startDate });
+    } else if (endDate) {
+      query.andWhere("event.date <= :endDate", { endDate });
+    }
+
+    query.limit(10);
+
+    return query.getMany();
   }
 }

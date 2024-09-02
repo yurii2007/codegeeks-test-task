@@ -8,14 +8,16 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from "@nestjs/common";
 import { EventService } from "./event.service";
 import { CreateEventDto } from "./dto/createEvent.dto";
 import { User as ReqUser } from "src/common/decorators/user.decorator";
 import { User } from "src/User/entities/user.entity";
-import { Public } from "src/common/decorators/public.decorator";
 import { AccessTokenPayload } from "src/common/types/AccessTokenPayload";
 import { UpdateEventDto } from "./dto/updateEvent.dto";
+import { GetRecommendedQueryDto } from "./dto/getRecommended.dto";
+import { isValidDate } from "src/common/helpers/isValidDate.helper";
 
 @Controller("events")
 export class EventController {
@@ -44,7 +46,6 @@ export class EventController {
     return await this.eventService.updateEvent(+eventId, eventData, user.id);
   }
 
-  @Public()
   @Delete(":eventId")
   @HttpCode(204)
   async deleteEvent(
@@ -54,5 +55,21 @@ export class EventController {
     if (isNaN(+eventId)) throw new BadRequestException("Invalid Event id");
     await this.eventService.deleteEvent(+eventId, +user.userId);
     return;
+  }
+
+  @Get(":eventId/recommended")
+  async getRecommendedEvents(
+    @Param("eventId") eventId: string,
+    @Query() query: GetRecommendedQueryDto,
+  ) {
+    if (isNaN(+eventId)) throw new BadRequestException("Invalid Event id");
+    return this.eventService.getRecommendedEvents({
+      ...query,
+      startDate: isValidDate(query.startDate)
+        ? new Date(query.startDate)
+        : null,
+      endDate: isValidDate(query.endDate) ? new Date(query.endDate) : null,
+      eventId: +eventId,
+    });
   }
 }
