@@ -9,7 +9,7 @@ const NavList = () => {
   return (
     <List
       sx={{
-        flexDirection: "row",
+        flexDirection: { xs: "column", sm: "row" },
         display: "flex",
         gap: ".75rem",
       }}

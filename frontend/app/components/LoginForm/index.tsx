@@ -1,5 +1,6 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import React, { useState } from "react";
@@ -24,10 +25,11 @@ type LoginFormProps = {
 
 const LoginForm = React.forwardRef<HTMLFormElement, LoginFormProps>(
   ({ onClose }, ref) => {
-    const { handleSubmit, register, formState } = useForm<
+    const { handleSubmit, register, formState  } = useForm<
       z.infer<typeof loginFormScheme>
     >({
       mode: "onBlur",
+      resolver: zodResolver(loginFormScheme),
     });
     const { login } = useAuth();
     const [loading, setLoading] = useState<boolean>(false);

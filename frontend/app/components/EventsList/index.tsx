@@ -12,7 +12,10 @@ const EventsList = ({ events }: EventsListProps) => {
     <List
       sx={{
         display: "grid",
-        gridTemplateColumns: "repeat(4, minmax(150px, 1fr))",
+        gridTemplateColumns: {
+          xs: "repeat(2, minmax(100px, 1fr))",
+          md: "repeat(4, minmax(150px, 1fr))",
+        },
         rowGap: "1.5rem",
         columnGap: "1rem",
       }}

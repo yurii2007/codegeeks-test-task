@@ -50,6 +50,17 @@ class EventService {
     );
     return data;
   }
+
+  async getFilteredEvents(eventId: number) {
+    const queryParams = new URLSearchParams({
+      startDate: EventService.DEFAULT_RECOMMEND_FILTERS.startDate.toISOString(),
+      endDate: EventService.DEFAULT_RECOMMEND_FILTERS.endDate.toISOString(),
+    });
+    const { data }: AxiosResponse<IEvent[]> = await api.get(
+      `/events/${eventId}/recommended?${queryParams.toString()}`,
+    );
+    return data;
+  }
 }
 
 export default new EventService();

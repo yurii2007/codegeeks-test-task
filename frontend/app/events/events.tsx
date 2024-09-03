@@ -1,15 +1,15 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { IEvent } from "types/event.type";
+import React, { useEffect } from "react";
 
 import useEvents from "@hooks/useEvents";
 
 import EventsList from "@components/EventsList";
 import { useAuthContext } from "@components/providers/AuthProvider";
+import { useEventsContext } from "@components/providers/EventsProvider";
 
 const Events = () => {
-  const [events, setEvents] = useState<IEvent[]>([]);
+  const { events, setEvents } = useEventsContext();
   const { getEvents } = useEvents();
   const { user } = useAuthContext();
 
@@ -22,7 +22,7 @@ const Events = () => {
         setEvents(data);
       } catch (error) {}
     })();
-  }, [getEvents, setEvents, user]);
+  }, [user]);
 
   return <EventsList events={events} />;
 };
