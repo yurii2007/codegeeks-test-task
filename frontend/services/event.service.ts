@@ -1,8 +1,14 @@
 import { AxiosResponse } from "axios";
 import dayjs from "dayjs";
-import { ICreateEventData, IEvent, IUpdateEventData } from "types/event.type";
+import {
+  GetFilterredEventsQuery,
+  ICreateEventData,
+  IEvent,
+  IUpdateEventData,
+} from "types/event.type";
 
 import { api } from "@utils/axios";
+import filterObject from "@utils/filterObject";
 
 class EventService {
   static DEFAULT_RECOMMEND_FILTERS = {
@@ -51,13 +57,18 @@ class EventService {
     return data;
   }
 
-  async getFilteredEvents(eventId: number) {
+  async getFilteredEvents(query: GetFilterredEventsQuery) {
     const queryParams = new URLSearchParams({
-      startDate: EventService.DEFAULT_RECOMMEND_FILTERS.startDate.toISOString(),
-      endDate: EventService.DEFAULT_RECOMMEND_FILTERS.endDate.toISOString(),
+      ...filterObject(query),
+      startDate: query.startDate
+        ? query.startDate.toISOString()
+        : EventService.DEFAULT_RECOMMEND_FILTERS.startDate.toISOString(),
+      endDate: query.endDate
+        ? query.endDate.toISOString()
+        : EventService.DEFAULT_RECOMMEND_FILTERS.endDate.toISOString(),
     });
     const { data }: AxiosResponse<IEvent[]> = await api.get(
-      `/events/${eventId}/recommended?${queryParams.toString()}`,
+      `/events/filtered?${queryParams.toString()}`,
     );
     return data;
   }

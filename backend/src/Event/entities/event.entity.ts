@@ -22,7 +22,7 @@ export class Event extends BaseEntity {
     name: "Category",
     type: "enum",
     enumName: "Categories",
-    enum: ["DEFAULT", "category"],
+    enum: ["Social", "Cultural", "Sports", "Educational", "Community"],
     nullable: false,
   })
   category: string;

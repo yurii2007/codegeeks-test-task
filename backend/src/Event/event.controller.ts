@@ -28,9 +28,9 @@ export class EventController {
     return this.eventService.getEvents(user.userId);
   }
 
-  @Get("/sorted")
+  @Get("/filtered")
   async getFilteredEvents(@Query() query: GetEventsQueryDto) {
-    return this.eventService.getSortedEvents(query);
+    return this.eventService.getFilteredEvents(query);
   }
 
   @Get(":eventId")

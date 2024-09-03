@@ -30,7 +30,7 @@ export class EventService {
     return events;
   }
 
-  async getSortedEvents(query: GetEventsQueryDto) {
+  async getFilteredEvents(query: GetEventsQueryDto) {
     const queryBuilder = this.eventRepo.createQueryBuilder("event");
 
     if (query.fromDate) {
