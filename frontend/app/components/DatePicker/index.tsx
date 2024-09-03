@@ -5,7 +5,7 @@ import ReactDatepicker, {
 
 import "react-datepicker/dist/react-datepicker.css";
 
-type DatePickerProps = {} & ReactDatepickerProps;
+type DatePickerProps = object & ReactDatepickerProps;
 
 const DatePicker = (props: DatePickerProps) => {
   return <ReactDatepicker {...props} />;

@@ -1,7 +1,7 @@
-export enum Categories {
-  Social = "Social",
-  Cultural = "Cultural",
-  Sports = "Sports",
-  Educational = "Educational",
-  Community = "Community",
-}
+export const Categories = [
+  "Social",
+  "Cultural",
+  "Sports",
+  "Educational",
+  "Community",
+] as const;

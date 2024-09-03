@@ -1,6 +1,10 @@
 import { useCallback } from "react";
 import eventService from "services/event.service";
-import { GetFilterredEventsQuery, IEvent } from "types/event.type";
+import {
+  GetFilterredEventsQuery,
+  ICreateEventData,
+  IUpdateEventData,
+} from "types/event.type";
 
 const useEvents = () => {
   const getEvents = useCallback(async () => {
@@ -43,7 +47,37 @@ const useEvents = () => {
     [],
   );
 
-  return { getEvents, getEventById, getRecommendedEvents, getFilteredEvents };
+  const createEvent = useCallback(async (eventData: ICreateEventData) => {
+    try {
+      const data = await eventService.createEvent(eventData);
+      return data;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  }, []);
+
+  const updateEvent = useCallback(
+    async (eventId: number, eventData: IUpdateEventData) => {
+      try {
+        const data = await eventService.updateEvent(eventId, eventData);
+        return data;
+      } catch (error) {
+        console.log(error);
+        return null;
+      }
+    },
+    [],
+  );
+
+  return {
+    getEvents,
+    getEventById,
+    getRecommendedEvents,
+    getFilteredEvents,
+    createEvent,
+    updateEvent,
+  };
 };
 
 export default useEvents;

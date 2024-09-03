@@ -1,8 +1,7 @@
 import { Type } from "class-transformer";
 import {
-  IsDate,
+  IsDateString,
   IsEnum,
-  IsNotEmpty,
   IsOptional,
   IsString,
   ValidateNested,
@@ -16,12 +15,10 @@ export class UpdateEventDto {
   title: string;
 
   @IsOptional()
-  @IsNotEmpty()
-  @IsDate()
-  date: Date;
+  @IsDateString()
+  date: string;
 
   @IsOptional()
-  @IsNotEmpty()
   @IsString()
   description: string;
 

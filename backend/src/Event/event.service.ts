@@ -10,7 +10,6 @@ import { Event } from "./entities/event.entity";
 import { Repository } from "typeorm";
 import { UserService } from "src/User/user.service";
 import { UpdateEventDto } from "./dto/updateEvent.dto";
-import { Categories } from "src/common/types/CategoryEnum";
 import { GetEventsQueryDto } from "./dto/getEventsQuery.dto";
 
 const MAX_DISTANCE_DIFFERENCE = 2.5;
@@ -133,14 +132,12 @@ export class EventService {
   async getRecommendedEvents({
     latitude,
     longitude,
-    category,
     startDate,
     endDate,
     eventId,
   }: {
     latitude: number | null;
     longitude: number | null;
-    category: Categories;
     startDate: Date | null;
     endDate: Date | null;
     eventId: number;
@@ -155,7 +152,7 @@ export class EventService {
       .leftJoinAndSelect("event.location", "location")
       .leftJoinAndSelect("event.owner", "owner");
 
-    if (event.location || (latitude && longitude)) {
+    if (latitude && longitude) {
       query.andWhere(
         `(
         6371 * acos(
@@ -172,10 +169,6 @@ export class EventService {
       );
     }
 
-    if (category) {
-      query.andWhere("event.category = :category", { category });
-    }
-
     if (startDate && endDate) {
       query.andWhere("event.date BETWEEN :startDate AND :endDate", {
         startDate,
@@ -186,6 +179,13 @@ export class EventService {
     } else if (endDate) {
       query.andWhere("event.date <= :endDate", { endDate });
     }
+
+    if (!latitude && !longitude && !startDate && !endDate) {
+      query.andWhere("event.category = :category", {
+        category: event.category,
+      });
+    }
+    query.andWhere("event.id != :eventId", { eventId: event.id });
 
     query.limit(10);
 

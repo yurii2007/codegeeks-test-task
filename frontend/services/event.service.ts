@@ -12,8 +12,8 @@ import filterObject from "@utils/filterObject";
 
 class EventService {
   static DEFAULT_RECOMMEND_FILTERS = {
-    startDate: dayjs().add(-1, "month"),
-    endDate: dayjs().add(1, "month"),
+    startDate: dayjs().add(-3, "month"),
+    endDate: dayjs().add(3, "month"),
   };
 
   async getEvents() {
@@ -31,7 +31,7 @@ class EventService {
 
   async updateEvent(eventId: number, eventData: IUpdateEventData) {
     const { data }: AxiosResponse<IEvent> = await api.patch(
-      `/events${eventId}`,
+      `/events/${eventId}`,
       eventData,
     );
     return data;
@@ -60,10 +60,10 @@ class EventService {
   async getFilteredEvents(query: GetFilterredEventsQuery) {
     const queryParams = new URLSearchParams({
       ...filterObject(query),
-      startDate: query.startDate
+      fromDate: query.startDate
         ? query.startDate.toISOString()
         : EventService.DEFAULT_RECOMMEND_FILTERS.startDate.toISOString(),
-      endDate: query.endDate
+      toDate: query.endDate
         ? query.endDate.toISOString()
         : EventService.DEFAULT_RECOMMEND_FILTERS.endDate.toISOString(),
     });

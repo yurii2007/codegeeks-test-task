@@ -25,7 +25,7 @@ type LoginFormProps = {
 
 const LoginForm = React.forwardRef<HTMLFormElement, LoginFormProps>(
   ({ onClose }, ref) => {
-    const { handleSubmit, register, formState  } = useForm<
+    const { handleSubmit, register, formState } = useForm<
       z.infer<typeof loginFormScheme>
     >({
       mode: "onBlur",

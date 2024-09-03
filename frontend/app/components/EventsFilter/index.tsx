@@ -19,14 +19,14 @@ type State = {
   startDate: Date | undefined;
   endDate: Date | undefined;
   search: string;
-  category: Categories | "all";
+  category: typeof Categories | "All";
 };
 
 const initState: State = {
   startDate: undefined,
   endDate: undefined,
   search: "",
-  category: "all",
+  category: "All",
 };
 
 const reducer = (
@@ -36,33 +36,6 @@ const reducer = (
   if (action === "reset") return initState;
   return { ...state, [action.key]: action.value };
 };
-
-const categoriesOptions = [
-  {
-    label: "Social",
-    value: Categories.Social,
-  },
-  {
-    label: "Educational",
-    value: Categories.Educational,
-  },
-  {
-    label: "Community",
-    value: Categories.Community,
-  },
-  {
-    label: "Sports",
-    value: Categories.Sports,
-  },
-  {
-    label: "Cultural",
-    value: Categories.Cultural,
-  },
-  {
-    label: "All",
-    value: "all",
-  },
-];
 
 const EventsFilters = () => {
   const [state, dispatch] = useReducer(reducer, initState);
@@ -74,7 +47,7 @@ const EventsFilters = () => {
       try {
         const result = await getFilteredEvents({
           ...state,
-          category: state.category === "all" ? undefined : state.category,
+          category: state.category === "All" ? undefined : state.category,
         });
         setEvents(result);
       } catch (error) {
@@ -102,9 +75,9 @@ const EventsFilters = () => {
         fullWidth
         onChange={(e) => dispatch({ key: "category", value: e.target.value })}
       >
-        {categoriesOptions.map((category) => (
-          <MenuItem key={category.label} value={category.value}>
-            {category.label}
+        {[...Categories, "All"].map((category) => (
+          <MenuItem key={category} value={category}>
+            {category}
           </MenuItem>
         ))}
       </Select>

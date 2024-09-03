@@ -1,12 +1,7 @@
 import { Type } from "class-transformer";
-import { IsEnum, IsNumber, IsOptional } from "class-validator";
-import { Categories } from "src/common/types/CategoryEnum";
+import { IsNumber, IsOptional } from "class-validator";
 
 export class GetRecommendedQueryDto {
-  @IsEnum(Categories)
-  @IsOptional()
-  category: Categories;
-
   @IsNumber()
   @IsOptional()
   @Type(() => Number)
