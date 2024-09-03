@@ -1,14 +1,13 @@
-import { green, purple } from "./color";
-import { Palette } from "@mui/material";
+import { PaletteOptions } from "@mui/material";
 
-export const palette = {
+export const palette: PaletteOptions = {
   primary: {
-    main: green[300],
+    main: "#004080",
   },
   secondary: {
-    main: purple[600],
+    main: "#663300",
   },
-  primaryLight: {
-    main: green[50],
+  error: {
+    main: "#990000",
   },
-} as unknown as Palette;
+};

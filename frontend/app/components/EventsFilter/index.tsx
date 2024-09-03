@@ -50,9 +50,7 @@ const EventsFilters = () => {
           category: state.category === "All" ? undefined : state.category,
         });
         setEvents(result);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     })();
   }, [state, getFilteredEvents]);
 
