@@ -8,6 +8,7 @@ import { Inter } from "next/font/google";
 import theme from "@utils/theme";
 
 import Header from "@components/Header";
+import ToasterProvider from "@components/Toaster";
 
 import "./globals.css";
 
@@ -42,6 +43,8 @@ export default function RootLayout({
             </AuthProvider>
           </ThemeProvider>
         </AppRouterCacheProvider>
+
+        <ToasterProvider />
       </body>
     </html>
   );

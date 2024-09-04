@@ -3,6 +3,8 @@ import { useCallback } from "react";
 import authService from "services/auth.service";
 import { ILoginData } from "types/login.type";
 
+import { handleError } from "@utils/handleError";
+
 export const useAuth = () => {
   const { setUser, setAccessToken } = useAuthContext();
 
@@ -13,7 +15,7 @@ export const useAuth = () => {
         setUser(data.user);
         setAccessToken(data.accessToken);
       } catch (error) {
-        console.log(error);
+        handleError(error);
       }
     },
     [setUser],
@@ -26,7 +28,7 @@ export const useAuth = () => {
         setUser(data.user);
         setAccessToken(data.accessToken);
       } catch (error) {
-        console.log(error);
+        handleError(error);
       }
     },
     [setUser],

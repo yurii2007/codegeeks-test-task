@@ -1,6 +1,7 @@
 "use client";
 
 import EventForm from "./";
+import CloseIcon from "@mui/icons-material/Close";
 import UploadIcon from "@mui/icons-material/Upload";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
@@ -33,10 +34,23 @@ const CreateEventButton = () => {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            backgroundColor: "#1D1D1D",
+            backgroundColor: "#FFFFFF",
+            padding: "1.5rem",
           }}
         >
           <EventForm afterSubmit={toggleModal} />
+
+          <IconButton
+            sx={{
+              position: "absolute",
+              top: ".25rem",
+              right: ".25rem",
+              padding: 0,
+            }}
+            onClick={toggleModal}
+          >
+            <CloseIcon />
+          </IconButton>
         </Box>
       </Modal>
     </>

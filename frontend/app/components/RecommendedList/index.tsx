@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from "react";
 import { IEvent } from "types/event.type";
 
+import { handleError } from "@utils/handleError";
+
 import useEvents from "@hooks/useEvents";
 
 import EventsList from "@components/EventsList";
@@ -20,7 +22,9 @@ const RecommendedList = ({ eventId }: { eventId: number }) => {
       try {
         const data = await getRecommendedEvents(eventId);
         setEvents(data);
-      } catch (error) {}
+      } catch (error) {
+        handleError(error);
+      }
     })();
   }, [getRecommendedEvents, setEvents, user, eventId]);
 

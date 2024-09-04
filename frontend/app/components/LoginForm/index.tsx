@@ -5,6 +5,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { ILoginData } from "types/login.type";
 import z from "zod";
 
@@ -41,7 +42,8 @@ const LoginForm = React.forwardRef<HTMLFormElement, LoginFormProps>(
       try {
         await login(credentials);
         onClose?.();
-      } catch (error) {
+      } catch (error: any) {
+        toast(error.message);
       } finally {
         setLoading(false);
       }

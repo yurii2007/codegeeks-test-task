@@ -6,12 +6,15 @@ import {
   IUpdateEventData,
 } from "types/event.type";
 
+import { handleError } from "@utils/handleError";
+
 const useEvents = () => {
   const getEvents = useCallback(async () => {
     try {
       const data = await eventService.getEvents();
       return data;
     } catch (error) {
+      handleError(error);
       return [];
     }
   }, []);
@@ -21,6 +24,7 @@ const useEvents = () => {
       const data = await eventService.getEventById(eventId);
       return data;
     } catch (error) {
+      handleError(error);
       return null;
     }
   }, []);
@@ -30,6 +34,7 @@ const useEvents = () => {
       const data = await eventService.getRecommendedEvents(eventId);
       return data;
     } catch (error) {
+      handleError(error);
       return [];
     }
   }, []);
@@ -40,7 +45,7 @@ const useEvents = () => {
         const data = await eventService.getFilteredEvents(query);
         return data;
       } catch (error) {
-        console.log(error);
+        handleError(error);
         return [];
       }
     },
@@ -52,7 +57,7 @@ const useEvents = () => {
       const data = await eventService.createEvent(eventData);
       return data;
     } catch (error) {
-      console.log(error);
+      handleError(error);
       return null;
     }
   }, []);
@@ -63,12 +68,22 @@ const useEvents = () => {
         const data = await eventService.updateEvent(eventId, eventData);
         return data;
       } catch (error) {
-        console.log(error);
+        handleError(error);
         return null;
       }
     },
     [],
   );
+
+  const deleteEvent = useCallback(async (eventId: number) => {
+    try {
+      await eventService.deleteEvent(eventId);
+      return true;
+    } catch (error) {
+      handleError(error);
+      return false;
+    }
+  }, []);
 
   return {
     getEvents,
@@ -77,6 +92,7 @@ const useEvents = () => {
     getFilteredEvents,
     createEvent,
     updateEvent,
+    deleteEvent,
   };
 };
 

@@ -38,7 +38,7 @@ class EventService {
   }
 
   async deleteEvent(eventId: number) {
-    await api.delete(`/events${eventId}`);
+    await api.delete(`/events/${eventId}`);
   }
 
   async getEventById(eventId: number) {

@@ -7,6 +7,7 @@ import useEvents from "@hooks/useEvents";
 import EventsList from "@components/EventsList";
 import { useAuthContext } from "@components/providers/AuthProvider";
 import { useEventsContext } from "@components/providers/EventsProvider";
+import { handleError } from "@utils/handleError";
 
 const Events = () => {
   const { events, setEvents } = useEventsContext();
@@ -20,7 +21,9 @@ const Events = () => {
       try {
         const data = await getEvents();
         setEvents(data);
-      } catch (error) {}
+      } catch (error) {
+        handleError(error);
+      }
     })();
   }, [user]);
 

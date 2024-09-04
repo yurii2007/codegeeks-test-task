@@ -11,6 +11,8 @@ import { ICreateEventData, IEvent } from "types/event.type";
 import { Categories } from "types/general.types";
 import z from "zod";
 
+import { handleError } from "@utils/handleError";
+
 import useEvents from "@hooks/useEvents";
 
 import DatePicker from "@components/DatePicker";
@@ -75,6 +77,7 @@ const EventForm = ({ eventId, initialData, afterSubmit }: EventFormProps) => {
 
       afterSubmit?.();
     } catch (error) {
+      handleError(error);
     } finally {
       setLoading(false);
     }
@@ -87,7 +90,7 @@ const EventForm = ({ eventId, initialData, afterSubmit }: EventFormProps) => {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        gap: ".5rem",
+        gap: ".75rem",
         width: "40vw",
       }}
       component="form"
@@ -98,20 +101,25 @@ const EventForm = ({ eventId, initialData, afterSubmit }: EventFormProps) => {
         {...register("title")}
         disabled={loading}
         required
+        placeholder="Title"
         errorMessage={formState.errors.title?.message}
+        fullWidth
       />
 
       <Input
         {...register("description")}
         disabled={loading}
         required
+        placeholder="Description"
         errorMessage={formState.errors.description?.message}
+        fullWidth
       />
 
       <TextField
         select
         fullWidth
         label="Category"
+        placeholder="Category"
         defaultValue={formState.defaultValues?.category}
         slotProps={{
           htmlInput: register("category", {

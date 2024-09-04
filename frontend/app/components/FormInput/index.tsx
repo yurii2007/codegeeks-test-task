@@ -13,7 +13,12 @@ const FormInput = React.forwardRef<
   return (
     <Box
       ref={ref}
-      sx={{ display: "grid", gridTemplateRows: "1fr 40px", gap: ".25rem" }}
+      sx={{
+        display: "grid",
+        gridTemplateRows: "1fr 40px",
+        gap: ".25rem",
+        width: "100%",
+      }}
     >
       <TextField label={label} name={name} {...props} />
       <Typography
