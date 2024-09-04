@@ -2,12 +2,13 @@
 
 import React, { useEffect } from "react";
 
+import { handleError } from "@utils/handleError";
+
 import useEvents from "@hooks/useEvents";
 
 import EventsList from "@components/EventsList";
 import { useAuthContext } from "@components/providers/AuthProvider";
 import { useEventsContext } from "@components/providers/EventsProvider";
-import { handleError } from "@utils/handleError";
 
 const Events = () => {
   const { events, setEvents } = useEventsContext();

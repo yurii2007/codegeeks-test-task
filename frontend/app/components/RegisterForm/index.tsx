@@ -57,6 +57,7 @@ const RegisterForm = React.forwardRef<HTMLFormElement, RegisterFormProps>(
 
         <Input
           {...register("password")}
+          type="password"
           errorMessage={formState.errors.password?.message}
         />
 
