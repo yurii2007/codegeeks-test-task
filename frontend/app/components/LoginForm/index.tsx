@@ -11,6 +11,7 @@ import { ILoginData } from "types/login.type";
 import z from "zod";
 
 import Input from "@components/FormInput";
+import { useAuthContext } from "@components/providers/AuthProvider";
 
 const loginFormScheme = z.object({
   username: z.string().min(1, "Please enter a valid username"),
@@ -31,6 +32,7 @@ const LoginForm = React.forwardRef<HTMLFormElement, LoginFormProps>(
       mode: "onBlur",
       resolver: zodResolver(loginFormScheme),
     });
+    const { setUser } = useAuthContext();
     const [loading, setLoading] = useState<boolean>(false);
 
     const submit: SubmitHandler<z.infer<typeof loginFormScheme>> = async (
@@ -38,7 +40,12 @@ const LoginForm = React.forwardRef<HTMLFormElement, LoginFormProps>(
     ) => {
       setLoading(true);
       try {
-        await login(credentials);
+        const result = await login(credentials);
+        if (!result || typeof result === "string")
+          return toast.error(
+            result ?? "Oops, something went wrong, please try again",
+          );
+        setUser(result);
         onClose?.();
       } catch (error: any) {
         toast(error.message);

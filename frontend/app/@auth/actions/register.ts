@@ -2,19 +2,25 @@
 
 import { AxiosResponse } from "axios";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import { IRegisterData } from "types/login.type";
+import { IUser } from "types/user.type";
 
 import axiosInstance from "@lib/axiosInstance";
 
-const register = async (credentials: IRegisterData) => {
-  const res = await axiosInstance.post(
-    `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/register`,
-    credentials,
-  );
+import { handleServerError } from "@utils/handleError";
 
-  setAuthCookie(res);
-  redirect("/");
+const register = async (credentials: IRegisterData) => {
+  try {
+    const res: AxiosResponse<IUser> = await axiosInstance.post(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/register`,
+      credentials,
+    );
+
+    setAuthCookie(res);
+    return res.data;
+  } catch (error) {
+    return handleServerError(error);
+  }
 };
 
 const setAuthCookie = (response: AxiosResponse<any>) => {

@@ -53,7 +53,7 @@ export class AuthService {
       user.username,
     );
     if (existingUser) {
-      throw new ConflictException(`User with ${user.username} already exists`);
+      throw new ConflictException(`User with username ${user.username} already exists`);
     }
 
     const hashedPassword = await bcrypt.hash(user.password, 10);

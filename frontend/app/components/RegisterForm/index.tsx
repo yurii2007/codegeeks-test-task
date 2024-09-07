@@ -5,10 +5,12 @@ import Button from "@mui/material/Button";
 import registerAction from "app/@auth/actions/register";
 import React, { useCallback } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { ILoginData } from "types/login.type";
 import z from "zod";
 
 import Input from "@components/FormInput";
+import { useAuthContext } from "@components/providers/AuthProvider";
 
 const registerFormScheme = z.object({
   username: z.string().min(1, "Please enter a valid username"),
@@ -23,13 +25,19 @@ type RegisterFormProps = {
 
 const RegisterForm = React.forwardRef<HTMLFormElement, RegisterFormProps>(
   ({ onClose }, ref) => {
+    const { setUser } = useAuthContext();
     const { handleSubmit, register, formState } = useForm<
       z.infer<typeof registerFormScheme>
     >({});
 
     const submit = useCallback(
       async (credentials: ILoginData) => {
-        await registerAction(credentials);
+        const result = await registerAction(credentials);
+        if (!result || typeof result === "string")
+          return toast.error(
+            result ?? "Oops, something went wrong, please try again",
+          );
+        setUser(result);
         onClose?.();
       },
       [onClose],
