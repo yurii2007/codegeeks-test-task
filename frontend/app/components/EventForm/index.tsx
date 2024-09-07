@@ -5,15 +5,16 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
+import createEvent from "app/events/actions/createEvent";
+import updateEvent from "app/events/actions/updateEvent";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { ICreateEventData, IEvent } from "types/event.type";
 import { Categories } from "types/general.types";
 import z from "zod";
 
-import axiosInstance from "@lib/axiosInstance";
-
-import { handleError } from "@utils/handleError";
+import { handleClientError } from "@utils/handleError";
 
 import DatePicker from "@components/DatePicker";
 import Input from "@components/FormInput";
@@ -57,14 +58,16 @@ const EventForm = ({ eventId, initialData, afterSubmit }: EventFormProps) => {
     setLoading(true);
     try {
       if (eventId) {
-        await axiosInstance.patch(`/events/${eventId}`, data);
+        const res = await updateEvent(eventId, data);
+        if (typeof res === "string") return toast.error(res);
       } else {
-        await axiosInstance.post("/events", data);
+        const res = await createEvent(data);
+        if (typeof res === "string") return toast.error(res);
       }
 
       afterSubmit?.();
     } catch (error) {
-      handleError(error);
+      handleClientError(error);
     } finally {
       setLoading(false);
     }

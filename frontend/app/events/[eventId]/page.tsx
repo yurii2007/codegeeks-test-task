@@ -1,32 +1,15 @@
+import getEventById from "../actions/getEventById";
 import { AxiosResponse } from "axios";
-import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { IEvent } from "types/event.type";
 
 import axiosInstance from "@lib/axiosInstance";
 
-import { handleError } from "@utils/handleError";
+import { handleServerError } from "@utils/handleError";
 
 import EventDetailView from "@components/EventDetailView";
 import Loader from "@components/Loader";
 import RecommendedList from "@components/RecommendedList";
-
-async function getEvent(id: string) {
-  try {
-    if (!id) return null;
-
-    const { data: event }: AxiosResponse<IEvent> = await axiosInstance.get(
-      `/events/${id}`,
-    );
-
-    if (!event) return notFound();
-
-    return event;
-  } catch (error) {
-    handleError(error);
-    return notFound();
-  }
-}
 
 export async function generateStaticParams() {
   try {
@@ -39,7 +22,7 @@ export async function generateStaticParams() {
       id: event.id,
     }));
   } catch (error) {
-    handleError(error);
+    handleServerError(error);
     return [];
   }
 }
@@ -49,7 +32,7 @@ export async function generateMetadata({
 }: {
   params: { eventId: string };
 }) {
-  const event = await getEvent(params.eventId);
+  const event = await getEventById(params.eventId);
 
   if (!event) return {};
   return {
@@ -62,7 +45,7 @@ export default async function Page({
 }: {
   params: { eventId: string };
 }) {
-  const event = await getEvent(params.eventId);
+  const event = await getEventById(params.eventId);
 
   if (!event) return <Loader fullSize />;
 

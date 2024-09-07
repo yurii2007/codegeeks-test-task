@@ -3,13 +3,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import login from "app/@auth/actions/login";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { ILoginData } from "types/login.type";
 import z from "zod";
-
-import axiosInstance from "@lib/axiosInstance";
 
 import Input from "@components/FormInput";
 
@@ -39,9 +38,7 @@ const LoginForm = React.forwardRef<HTMLFormElement, LoginFormProps>(
     ) => {
       setLoading(true);
       try {
-        await axiosInstance.post("/auth/login", credentials, {
-          withCredentials: true,
-        });
+        await login(credentials);
         onClose?.();
       } catch (error: any) {
         toast(error.message);

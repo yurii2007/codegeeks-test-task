@@ -4,18 +4,14 @@ import React, { createContext, useContext } from "react";
 import { useLocalStorage } from "react-use";
 import { IUser } from "types/user.type";
 
-import axiosInstance from "@lib/axiosInstance";
-
 interface IAuthContext {
   user: IUser | null | undefined;
-  setUser: (user: IUser | null) => void;
-  setAccessToken: (token: string) => void;
+  setUser: React.Dispatch<React.SetStateAction<IUser | null | undefined>>;
 }
 
 const AuthContext = createContext<IAuthContext>({
   user: null,
   setUser: () => {},
-  setAccessToken: () => {},
 });
 
 export const useAuthContext = () => useContext(AuthContext);
@@ -25,10 +21,9 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     "currentUser",
     null,
   );
-  const [accessToken, setAccessToken] = useLocalStorage("accessToken", "");
 
   return (
-    <AuthContext.Provider value={{ user, setUser, setAccessToken }}>
+    <AuthContext.Provider value={{ user, setUser }}>
       {children}
     </AuthContext.Provider>
   );

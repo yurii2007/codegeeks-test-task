@@ -12,6 +12,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
       return redirect("/");
     }
   }, [user]);
+
   return children;
 };
 

@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { IEvent } from "types/event.type";
 
-import { handleError } from "@utils/handleError";
+import { handleServerError } from "@utils/handleError";
 
 import EventsList from "@components/EventsList";
 
@@ -13,7 +13,7 @@ const getRecommendedEvents = async (eventId: number | string) => {
     );
     return data;
   } catch (error) {
-    handleError(error);
+    handleServerError(error);
     return [];
   }
 };

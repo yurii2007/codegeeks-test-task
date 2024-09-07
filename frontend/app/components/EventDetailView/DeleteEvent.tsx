@@ -7,7 +7,7 @@ import React, { useCallback, useState } from "react";
 
 import axiosInstance from "@lib/axiosInstance";
 
-import { handleError } from "@utils/handleError";
+import { handleClientError } from "@utils/handleError";
 
 import AlertDialog from "@components/AlertDialog";
 
@@ -26,7 +26,7 @@ const DeleteEvent = ({ eventId }: { eventId: number | string }) => {
 
       router.replace("/events");
     } catch (error) {
-      handleError(error);
+      handleClientError(error);
     }
   }, [router, eventId]);
 

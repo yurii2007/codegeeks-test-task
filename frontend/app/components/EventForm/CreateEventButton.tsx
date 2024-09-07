@@ -6,12 +6,22 @@ import UploadIcon from "@mui/icons-material/Upload";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Modal from "@mui/material/Modal";
-import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import React, { useCallback, useState } from "react";
 
 const CreateEventButton = () => {
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
+  const router = useRouter();
 
-  const toggleModal = () => setModalOpen((p) => !p);
+  const toggleModal = useCallback(
+    () => setModalOpen((p) => !p),
+    [setModalOpen],
+  );
+
+  const afterSubmit = useCallback(async () => {
+    toggleModal();
+    router.refresh();
+  }, [toggleModal, router]);
 
   return (
     <>
@@ -38,7 +48,7 @@ const CreateEventButton = () => {
             padding: "1.5rem",
           }}
         >
-          <EventForm afterSubmit={toggleModal} />
+          <EventForm afterSubmit={afterSubmit} />
 
           <IconButton
             sx={{

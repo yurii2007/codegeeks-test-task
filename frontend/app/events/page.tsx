@@ -1,12 +1,12 @@
-import axiosInstance from "@lib/axiosInstance";
+import getEvents from "./actions/getEvents";
 
 import EventsList from "@components/EventsList";
 
 const EventsPage = async () => {
-  const { data } = await axiosInstance.get("/events");
+  const events = await getEvents();
 
   // TODO refactor filters
-  return <EventsList events={data} />;
+  return <EventsList events={events} />;
 };
 
 export default EventsPage;

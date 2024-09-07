@@ -4,12 +4,13 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import IconButton from "@mui/material/IconButton";
 import React from "react";
 
-import { useAuth } from "@hooks/useAuth";
+import { useAuthContext } from "@components/providers/AuthProvider";
 
 const LogoutButton = () => {
-  const { logout } = useAuth();
+  const { setUser } = useAuthContext();
+
   return (
-    <IconButton onClick={logout}>
+    <IconButton onClick={() => setUser(null)}>
       <LogoutIcon color="error" />
     </IconButton>
   );

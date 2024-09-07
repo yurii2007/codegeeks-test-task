@@ -2,12 +2,11 @@
 
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import registerAction from "app/@auth/actions/register";
 import React, { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { ILoginData } from "types/login.type";
 import z from "zod";
-
-import { useAuth } from "@hooks/useAuth";
 
 import Input from "@components/FormInput";
 
@@ -27,14 +26,13 @@ const RegisterForm = React.forwardRef<HTMLFormElement, RegisterFormProps>(
     const { handleSubmit, register, formState } = useForm<
       z.infer<typeof registerFormScheme>
     >({});
-    const { register: submitRegister } = useAuth();
 
     const submit = useCallback(
       async (credentials: ILoginData) => {
-        await submitRegister(credentials);
+        await registerAction(credentials);
         onClose?.();
       },
-      [onClose, submitRegister],
+      [onClose],
     );
 
     return (
