@@ -3,7 +3,7 @@ import ListItem from "@mui/material/ListItem";
 import Link from "next/link";
 import React from "react";
 
-import { navList } from "@lib/navList";
+import { navList } from "@lib/constants/navList";
 
 const NavList = () => {
   return (

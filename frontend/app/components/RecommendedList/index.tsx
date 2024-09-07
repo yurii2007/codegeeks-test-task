@@ -1,34 +1,26 @@
-"use client";
-
-import React, { useEffect, useState } from "react";
+import axios, { AxiosResponse } from "axios";
 import { IEvent } from "types/event.type";
 
 import { handleError } from "@utils/handleError";
 
-import useEvents from "@hooks/useEvents";
-
 import EventsList from "@components/EventsList";
-import { useAuthContext } from "@components/providers/AuthProvider";
 
-const RecommendedList = ({ eventId }: { eventId: number }) => {
-  const [events, setEvents] = useState<IEvent[]>([]);
-  const { getRecommendedEvents } = useEvents();
-  const { user } = useAuthContext();
+const getRecommendedEvents = async (eventId: number | string) => {
+  try {
+    const queryParams = new URLSearchParams({});
+    const { data }: AxiosResponse<IEvent[]> = await axios.get(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/events/${eventId}/recommended?${queryParams.toString()}`,
+    );
+    return data;
+  } catch (error) {
+    handleError(error);
+    return [];
+  }
+};
+const RecommendedList = async ({ eventId }: { eventId: number | string }) => {
+  const recommendedEvents = await getRecommendedEvents(eventId);
 
-  useEffect(() => {
-    if (!user) return;
-
-    (async () => {
-      try {
-        const data = await getRecommendedEvents(eventId);
-        setEvents(data);
-      } catch (error) {
-        handleError(error);
-      }
-    })();
-  }, [getRecommendedEvents, setEvents, user, eventId]);
-
-  return <EventsList events={events} />;
+  return <EventsList events={recommendedEvents} />;
 };
 
 export default RecommendedList;

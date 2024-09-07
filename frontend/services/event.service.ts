@@ -7,7 +7,8 @@ import {
   IUpdateEventData,
 } from "types/event.type";
 
-import { api } from "@utils/axios";
+import axiosInstance from "@lib/axiosInstance";
+
 import filterObject from "@utils/filterObject";
 
 class EventService {
@@ -17,12 +18,13 @@ class EventService {
   };
 
   async getEvents() {
-    const { data }: AxiosResponse<IEvent[]> = await api.get("/events");
+    const { data }: AxiosResponse<IEvent[]> =
+      await axiosInstance.get("/events");
     return data;
   }
 
   async createEvent(eventData: ICreateEventData) {
-    const { data }: AxiosResponse<IEvent> = await api.post(
+    const { data }: AxiosResponse<IEvent> = await axiosInstance.post(
       "/events",
       eventData,
     );
@@ -30,7 +32,7 @@ class EventService {
   }
 
   async updateEvent(eventId: number, eventData: IUpdateEventData) {
-    const { data }: AxiosResponse<IEvent> = await api.patch(
+    const { data }: AxiosResponse<IEvent> = await axiosInstance.patch(
       `/events/${eventId}`,
       eventData,
     );
@@ -38,11 +40,13 @@ class EventService {
   }
 
   async deleteEvent(eventId: number) {
-    await api.delete(`/events/${eventId}`);
+    await axiosInstance.delete(`/events/${eventId}`);
   }
 
   async getEventById(eventId: number) {
-    const { data }: AxiosResponse<IEvent> = await api.get(`/events/${eventId}`);
+    const { data }: AxiosResponse<IEvent> = await axiosInstance.get(
+      `/events/${eventId}`,
+    );
     return data;
   }
 
@@ -51,7 +55,7 @@ class EventService {
       startDate: EventService.DEFAULT_RECOMMEND_FILTERS.startDate.toISOString(),
       endDate: EventService.DEFAULT_RECOMMEND_FILTERS.endDate.toISOString(),
     });
-    const { data }: AxiosResponse<IEvent[]> = await api.get(
+    const { data }: AxiosResponse<IEvent[]> = await axiosInstance.get(
       `/events/${eventId}/recommended?${queryParams.toString()}`,
     );
     return data;
@@ -67,7 +71,7 @@ class EventService {
         ? query.endDate.toISOString()
         : EventService.DEFAULT_RECOMMEND_FILTERS.endDate.toISOString(),
     });
-    const { data }: AxiosResponse<IEvent[]> = await api.get(
+    const { data }: AxiosResponse<IEvent[]> = await axiosInstance.get(
       `/events/filtered?${queryParams.toString()}`,
     );
     return data;

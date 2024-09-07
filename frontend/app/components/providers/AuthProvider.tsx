@@ -1,10 +1,10 @@
 "use client";
 
-import React, { createContext, useContext, useEffect } from "react";
+import React, { createContext, useContext } from "react";
 import { useLocalStorage } from "react-use";
 import { IUser } from "types/user.type";
 
-import { setToken } from "@utils/axios";
+import axiosInstance from "@lib/axiosInstance";
 
 interface IAuthContext {
   user: IUser | null | undefined;
@@ -26,16 +26,6 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     null,
   );
   const [accessToken, setAccessToken] = useLocalStorage("accessToken", "");
-
-  useEffect(() => {
-    if (!user || !accessToken) {
-      setUser(null);
-      setAccessToken("");
-      return;
-    }
-
-    setToken(accessToken);
-  }, [user, accessToken, setUser]);
 
   return (
     <AuthContext.Provider value={{ user, setUser, setAccessToken }}>

@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 import { ILoginData } from "types/login.type";
 import z from "zod";
 
-import { useAuth } from "@hooks/useAuth";
+import axiosInstance from "@lib/axiosInstance";
 
 import Input from "@components/FormInput";
 
@@ -32,7 +32,6 @@ const LoginForm = React.forwardRef<HTMLFormElement, LoginFormProps>(
       mode: "onBlur",
       resolver: zodResolver(loginFormScheme),
     });
-    const { login } = useAuth();
     const [loading, setLoading] = useState<boolean>(false);
 
     const submit: SubmitHandler<z.infer<typeof loginFormScheme>> = async (
@@ -40,7 +39,9 @@ const LoginForm = React.forwardRef<HTMLFormElement, LoginFormProps>(
     ) => {
       setLoading(true);
       try {
-        await login(credentials);
+        await axiosInstance.post("/auth/login", credentials, {
+          withCredentials: true,
+        });
         onClose?.();
       } catch (error: any) {
         toast(error.message);
@@ -67,6 +68,7 @@ const LoginForm = React.forwardRef<HTMLFormElement, LoginFormProps>(
           {...register("username")}
           disabled={loading}
           required
+          label="username"
           errorMessage={formState.errors.username?.message}
         />
         <Input
@@ -74,6 +76,7 @@ const LoginForm = React.forwardRef<HTMLFormElement, LoginFormProps>(
           disabled={loading}
           required
           type="password"
+          label="password"
           errorMessage={formState.errors.password?.message}
         />
 

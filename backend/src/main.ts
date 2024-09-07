@@ -10,7 +10,7 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
 
   app.useGlobalPipes(new ValidationPipe({}));
-  app.enableCors({});
+  app.enableCors({ credentials: true, origin: true });
   app.use(cookieParser());
 
   await app.listen(configService.get("PORT") ?? 5000);

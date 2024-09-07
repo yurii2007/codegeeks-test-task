@@ -11,13 +11,12 @@ import { ICreateEventData, IEvent } from "types/event.type";
 import { Categories } from "types/general.types";
 import z from "zod";
 
-import { handleError } from "@utils/handleError";
+import axiosInstance from "@lib/axiosInstance";
 
-import useEvents from "@hooks/useEvents";
+import { handleError } from "@utils/handleError";
 
 import DatePicker from "@components/DatePicker";
 import Input from "@components/FormInput";
-import { useEventsContext } from "@components/providers/EventsProvider";
 
 const createEventFormScheme = z.object({
   title: z.string().min(1, "Please enter a valid title"),
@@ -49,8 +48,6 @@ const EventForm = ({ eventId, initialData, afterSubmit }: EventFormProps) => {
       date: new Date(),
     },
   });
-  const { createEvent, updateEvent } = useEvents();
-  const { setEvents } = useEventsContext();
   const [loading, setLoading] = useState<boolean>(false);
 
   // @ts-expect-error fix enum issue
@@ -60,19 +57,9 @@ const EventForm = ({ eventId, initialData, afterSubmit }: EventFormProps) => {
     setLoading(true);
     try {
       if (eventId) {
-        const updatedEvent = await updateEvent(eventId, data);
-        if (!updatedEvent) return;
-        setEvents((prev) =>
-          prev.map((event) =>
-            event.id === updatedEvent.id
-              ? { ...event, ...updatedEvent }
-              : event,
-          ),
-        );
+        await axiosInstance.patch(`/events/${eventId}`, data);
       } else {
-        const event = await createEvent(data);
-        if (!event) return;
-        setEvents((prev) => [...prev, event]);
+        await axiosInstance.post("/events", data);
       }
 
       afterSubmit?.();
@@ -102,6 +89,7 @@ const EventForm = ({ eventId, initialData, afterSubmit }: EventFormProps) => {
         disabled={loading}
         required
         placeholder="Title"
+        label="Title"
         errorMessage={formState.errors.title?.message}
         fullWidth
       />
@@ -110,6 +98,7 @@ const EventForm = ({ eventId, initialData, afterSubmit }: EventFormProps) => {
         {...register("description")}
         disabled={loading}
         required
+        label="Description"
         placeholder="Description"
         errorMessage={formState.errors.description?.message}
         fullWidth

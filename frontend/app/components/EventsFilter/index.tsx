@@ -7,13 +7,10 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import React, { useEffect, useReducer } from "react";
+import React, { useReducer } from "react";
 import { Categories } from "types/general.types";
 
-import useEvents from "@hooks/useEvents";
-
 import DatePicker from "@components/DatePicker";
-import { useEventsContext } from "@components/providers/EventsProvider";
 
 type State = {
   startDate: Date | undefined;
@@ -39,20 +36,17 @@ const reducer = (
 
 const EventsFilters = () => {
   const [state, dispatch] = useReducer(reducer, initState);
-  const { getFilteredEvents } = useEvents();
-  const { setEvents } = useEventsContext();
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const result = await getFilteredEvents({
-          ...state,
-          category: state.category === "All" ? undefined : state.category,
-        });
-        setEvents(result);
-      } catch (error) {}
-    })();
-  }, [state, getFilteredEvents]);
+  // useEffect(() => {
+  //   (async () => {
+  //     try {
+  //       const result = await getFilteredEvents({
+  //         ...state,
+  //         category: state.category === "All" ? undefined : state.category,
+  //       });
+  //     } catch (error) {}
+  //   })();
+  // }, [state, getFilteredEvents]);
 
   return (
     <Box
