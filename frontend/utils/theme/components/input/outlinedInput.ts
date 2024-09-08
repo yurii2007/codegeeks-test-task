@@ -1,4 +1,4 @@
-import { outlinedInputClasses } from "@mui/material";
+import { Components, Theme, outlinedInputClasses } from "@mui/material";
 
 export const outlinedInput = {
   styleOverrides: {
@@ -13,6 +13,7 @@ export const outlinedInput = {
         borderColor: "var(--TextField-brandBorderFocusedColor)",
       },
       backgroundColor: "#CECECE",
+      borderRadius: "1rem",
     },
   },
-};
+} as Components<Theme>["MuiOutlinedInput"];

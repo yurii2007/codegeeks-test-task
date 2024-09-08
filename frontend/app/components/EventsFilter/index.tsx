@@ -12,6 +12,7 @@ const EventsFilters = () => {
         display: "grid",
         gridTemplateColumns: "repeat(2, 1fr) auto",
         gap: "1rem",
+        justifyItems: "center",
       }}
     >
       <SearchFilter />

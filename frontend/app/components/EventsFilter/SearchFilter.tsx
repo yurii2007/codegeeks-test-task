@@ -22,7 +22,14 @@ const SearchFilter = () => {
     [value],
   );
 
-  return <TextField onChange={onChange} value={value} label="Search" />;
+  return (
+    <TextField
+      sx={{ width: "clamp(100px, 350px, 100%)" }}
+      onChange={onChange}
+      value={value}
+      label="Search"
+    />
+  );
 };
 
 export default SearchFilter;

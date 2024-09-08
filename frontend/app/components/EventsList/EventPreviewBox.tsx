@@ -14,9 +14,16 @@ type EventPreviewBoxProps = {
 const EventPreviewBox = ({ event }: EventPreviewBoxProps) => {
   return (
     <ListItem>
-      <Link style={{ textDecoration: "none" }} href={`/events/${event.id}`}>
+      <Link
+        style={{
+          textDecoration: "none",
+          display: " block",
+          width: "fit-content",
+        }}
+        href={`/events/${event.id}`}
+      >
         <Card>
-          <CardContent>
+          <CardContent sx={{ padding: 0 }}>
             <Typography variant="h5" component="h2">
               {event.title}
             </Typography>

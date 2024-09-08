@@ -1,3 +1,5 @@
+import { Components, Theme } from "@mui/material";
+
 export const filledInput = {
   styleOverrides: {
     root: {
@@ -11,6 +13,7 @@ export const filledInput = {
         borderBottom: "2px solid var(--TextField-brandBorderFocusedColor)",
       },
       backgroundColor: "#CECECE",
+      borderRadius: "1rem",
     },
   },
-};
+} as Components<Theme>["MuiFilledInput"];

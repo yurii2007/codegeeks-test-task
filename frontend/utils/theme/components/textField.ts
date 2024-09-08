@@ -7,7 +7,10 @@ export const textfield = {
       "--TextField-brandBorderHoverColor": "#FF6600",
       "--TextField-brandBorderFocusedColor": "#FF6600",
       "& label.Mui-focused": {
-        color: "var(--TextField-brandBorderFocusedColor)",
+        color: "#111111",
+      },
+      "& label": {
+        color: "#111111A0",
       },
     },
   },

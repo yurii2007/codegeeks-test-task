@@ -32,7 +32,11 @@ const CategoryFilter = () => {
   );
 
   return (
-    <Select onChange={onChange} value={value}>
+    <Select
+      sx={{ width: "clamp(100px, 350px, 100%)" }}
+      onChange={onChange}
+      value={value}
+    >
       {categoryOptions.map((category) => (
         <MenuItem key={category} value={category.toLowerCase()}>
           {category}

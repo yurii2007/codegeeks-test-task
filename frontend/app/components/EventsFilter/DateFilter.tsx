@@ -1,5 +1,6 @@
 "use client";
 
+import OutlinedInput from "@mui/material/OutlinedInput";
 import dayjs from "dayjs";
 import React, { useState } from "react";
 import { useDebounce } from "react-use";
@@ -34,6 +35,8 @@ const DateFilter = ({ filter }: DateFilterProps) => {
     <DatePicker
       selected={isValidDate(value) ? value : new Date()}
       onChange={onChange}
+      customInput={<OutlinedInput fullWidth />}
+      enableTabLoop={false}
     />
   );
 };

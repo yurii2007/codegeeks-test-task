@@ -11,8 +11,8 @@ type EventActionProps = {
 const EventActions = ({ event }: EventActionProps) => {
   return (
     <Box sx={{ display: "flex", flexDirection: "row", gap: ".25rem" }}>
-      <DeleteEvent eventId={event.id} />
       <EditEvent event={event} />
+      <DeleteEvent eventId={event.id} />
     </Box>
   );
 };

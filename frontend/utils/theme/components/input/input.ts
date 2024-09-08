@@ -13,6 +13,10 @@ export const input = {
         borderBottom: "2px solid var(--TextField-brandBorderFocusedColor)",
       },
       backgroundColor: "#CECECE",
+      borderRadius: "1rem",
+    },
+    input: {
+      borderRadius: "1rem",
     },
   },
 } as Components<Theme>["MuiInput"];
