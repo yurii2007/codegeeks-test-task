@@ -1,6 +1,6 @@
 "use client";
 
-import DeleteIcon from "@mui/icons-material/Delete";
+import DeleteIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
 import { useRouter } from "next/navigation";
 import React from "react";
