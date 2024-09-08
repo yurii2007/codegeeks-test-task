@@ -2,16 +2,21 @@
 
 import { getHeaders } from "app/common/getHeaders";
 import { AxiosResponse } from "axios";
-import { IEvent } from "types/event.type";
+import { IEvent, IGetFilterredEventsQuery } from "types/event.type";
 
 import axiosInstance from "@lib/axiosInstance";
 
+import { extractEventsParams } from "@utils/extractEventsParams";
 import { handleServerError } from "@utils/handleError";
+import isValidParams from "@utils/isValidParams";
 
-const getEvents = async () => {
+const getEvents = async (params?: IGetFilterredEventsQuery) => {
   try {
+    const url = isValidParams(params)
+      ? `/events/filtered?${extractEventsParams(params)}`
+      : "/events";
     const { data: events }: AxiosResponse<IEvent[]> = await axiosInstance.get(
-      "/events",
+      url,
       { headers: getHeaders() },
     );
     return events;

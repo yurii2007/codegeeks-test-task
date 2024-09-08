@@ -11,6 +11,7 @@ import { UserService } from "src/User/user.service";
 import { RegisterUserDto } from "./dto/registerUser.dto";
 import { LoginUserDto } from "./dto/loginUser.dto";
 import { ConfigService } from "@nestjs/config";
+import { Response } from "express";
 
 @Injectable()
 export class AuthService {
@@ -53,7 +54,9 @@ export class AuthService {
       user.username,
     );
     if (existingUser) {
-      throw new ConflictException(`User with username ${user.username} already exists`);
+      throw new ConflictException(
+        `User with username ${user.username} already exists`,
+      );
     }
 
     const hashedPassword = await bcrypt.hash(user.password, 10);
@@ -65,6 +68,15 @@ export class AuthService {
     return this.login({
       username: newUser.username,
       password: user.password,
+    });
+  }
+
+  setCookieResponse(res: Response, key: string, value: string) {
+    res.cookie(key, value, {
+      httpOnly: true,
+      sameSite: "none",
+      secure: true,
+      path: "*",
     });
   }
 }

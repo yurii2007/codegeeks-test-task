@@ -8,14 +8,12 @@ export const handleClientError = (
   if (axios.isAxiosError(err)) {
     if (err.response?.status === 401) return;
     toast.error(err.response?.data.message);
-    return;
   } else if (err instanceof Error) {
     toast.error(err.message);
-    return;
   } else if (typeof err === "string") {
     toast.error(err);
   } else {
-    return toast("Oops, something went wrong, please try again");
+    toast("Oops, something went wrong, please try again");
   }
 };
 

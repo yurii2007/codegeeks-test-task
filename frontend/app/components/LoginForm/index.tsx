@@ -10,6 +10,8 @@ import toast from "react-hot-toast";
 import { ILoginData } from "types/login.type";
 import z from "zod";
 
+import { handleClientError } from "@utils/handleError";
+
 import Input from "@components/FormInput";
 import { useAuthContext } from "@components/providers/AuthProvider";
 
@@ -47,8 +49,8 @@ const LoginForm = React.forwardRef<HTMLFormElement, LoginFormProps>(
           );
         setUser(result);
         onClose?.();
-      } catch (error: any) {
-        toast(error.message);
+      } catch (error) {
+        handleClientError(error);
       } finally {
         setLoading(false);
       }

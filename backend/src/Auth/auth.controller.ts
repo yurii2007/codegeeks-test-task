@@ -16,12 +16,7 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
   ) {
     const data = await this.authService.register(body);
-    res.cookie("jwt_token", data.accessToken, {
-      httpOnly: true,
-      sameSite: "none",
-      secure: true,
-      path: "*",
-    });
+    this.authService.setCookieResponse(res, "jwt_token", data.accessToken);
     return data.user;
   }
 
@@ -32,12 +27,7 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
   ) {
     const data = await this.authService.login(body);
-    res.cookie("jwt_token", data.accessToken, {
-      httpOnly: true,
-      sameSite: "none",
-      secure: true,
-      path: "*",
-    });
+    this.authService.setCookieResponse(res, "jwt_token", data.accessToken);
     return data.user;
   }
 }

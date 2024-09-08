@@ -7,7 +7,11 @@ import Link from "next/link";
 import React from "react";
 import { IEvent } from "types/event.type";
 
-const EventPreviewBox = ({ event }: { event: IEvent }) => {
+type EventPreviewBoxProps = {
+  event: IEvent;
+};
+
+const EventPreviewBox = ({ event }: EventPreviewBoxProps) => {
   return (
     <ListItem>
       <Link style={{ textDecoration: "none" }} href={`/events/${event.id}`}>

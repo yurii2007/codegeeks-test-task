@@ -30,9 +30,9 @@ export interface IUpdateEventData {
   category?: typeof Categories;
 }
 
-export interface GetFilterredEventsQuery {
+export interface IGetFilterredEventsQuery {
   startDate?: Date;
   endDate?: Date;
-  category?: typeof Categories;
+  category?: keyof typeof Categories;
   search?: string;
 }

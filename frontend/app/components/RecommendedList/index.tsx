@@ -1,5 +1,7 @@
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 import { IEvent } from "types/event.type";
+
+import axiosInstance from "@lib/axiosInstance";
 
 import { handleServerError } from "@utils/handleError";
 
@@ -8,8 +10,8 @@ import EventsList from "@components/EventsList";
 const getRecommendedEvents = async (eventId: number | string) => {
   try {
     const queryParams = new URLSearchParams({});
-    const { data }: AxiosResponse<IEvent[]> = await axios.get(
-      `${process.env.NEXT_PUBLIC_BASE_API_URL}/events/${eventId}/recommended?${queryParams.toString()}`,
+    const { data }: AxiosResponse<IEvent[]> = await axiosInstance.get(
+      `/events/${eventId}/recommended?${queryParams.toString()}`,
     );
     return data;
   } catch (error) {

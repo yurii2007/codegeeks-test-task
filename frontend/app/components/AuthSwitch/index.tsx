@@ -3,13 +3,12 @@ import Switch from "@mui/material/Switch";
 import Typography from "@mui/material/Typography";
 import React from "react";
 
-const AuthSwitch = ({
-  value,
-  setValue,
-}: {
+type AuthSwitchProps = {
   value: boolean;
   setValue: (val: boolean) => void;
-}) => {
+};
+
+const AuthSwitch = ({ value, setValue }: AuthSwitchProps) => {
   return (
     <Box
       sx={{

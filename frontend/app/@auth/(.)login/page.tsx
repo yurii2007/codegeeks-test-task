@@ -10,8 +10,9 @@ import LoginForm from "@components/LoginForm";
 import RegisterForm from "@components/RegisterForm";
 
 const Login = () => {
-  const [formSwitch, setFormSwitch] = useState<boolean>(true);
   const router = useRouter();
+  const [formSwitch, setFormSwitch] = useState<boolean>(true);
+
   const closeModal = useCallback(() => router.replace("/events"), [router]);
 
   return (

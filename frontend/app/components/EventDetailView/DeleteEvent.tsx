@@ -11,7 +11,11 @@ import { handleClientError } from "@utils/handleError";
 
 import AlertDialog from "@components/AlertDialog";
 
-const DeleteEvent = ({ eventId }: { eventId: number | string }) => {
+type DeleteEventProps = {
+  eventId: number | string;
+};
+
+const DeleteEvent = ({ eventId }: DeleteEventProps) => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const router = useRouter();
 
