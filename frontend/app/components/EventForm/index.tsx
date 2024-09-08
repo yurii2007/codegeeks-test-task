@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
+import OutlinedInput from "@mui/material/OutlinedInput";
 import TextField from "@mui/material/TextField";
 import createEvent from "app/events/actions/createEvent";
 import updateEvent from "app/events/actions/updateEvent";
@@ -34,24 +35,24 @@ type EventFormProps = {
 };
 
 const EventForm = ({ eventId, initialData, afterSubmit }: EventFormProps) => {
-  const { handleSubmit, register, formState, getValues, setValue } = useForm<
-    z.infer<typeof createEventFormScheme>
-  >({
-    mode: "onBlur",
-    resolver: zodResolver(createEventFormScheme),
-    // @ts-expect-error fix enum issue
-    defaultValues: {
-      ...initialData,
-      location: { latitude: 1, longitude: 1 },
-    } || {
-      location: { latitude: 1, longitude: 1 },
-      category: "Social",
-      date: new Date(),
-    },
-  });
+  const { handleSubmit, register, formState, setValue, watch, getValues } =
+    useForm<z.infer<typeof createEventFormScheme>>({
+      mode: "onBlur",
+      resolver: zodResolver(createEventFormScheme),
+      defaultValues: initialData
+        ? {
+            ...initialData,
+            location: { latitude: 1, longitude: 1 },
+          }
+        : {
+            location: { latitude: 1, longitude: 1 },
+            category: "Social",
+            date: new Date(),
+          },
+    });
   const [loading, setLoading] = useState<boolean>(false);
+  watch("date");
 
-  // @ts-expect-error fix enum issue
   const submit: SubmitHandler<z.infer<typeof createEventFormScheme>> = async (
     data: ICreateEventData,
   ) => {
@@ -129,9 +130,10 @@ const EventForm = ({ eventId, initialData, afterSubmit }: EventFormProps) => {
       </TextField>
 
       <DatePicker
-        selected={getValues().date}
         onChange={(date) => setValue("date", new Date(date ?? ""))}
-        dateFormat="YYYY-MM-dd"
+        customInput={<OutlinedInput fullWidth />}
+        enableTabLoop={false}
+        selected={getValues().date}
       />
 
       <Button disabled={loading} type="submit" variant="contained">

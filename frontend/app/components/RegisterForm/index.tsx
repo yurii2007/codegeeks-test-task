@@ -40,7 +40,7 @@ const RegisterForm = React.forwardRef<HTMLFormElement, RegisterFormProps>(
         setUser(result);
         onClose?.();
       },
-      [onClose],
+      [onClose, setUser],
     );
 
     return (
@@ -58,12 +58,18 @@ const RegisterForm = React.forwardRef<HTMLFormElement, RegisterFormProps>(
       >
         <Input
           {...register("username")}
+          required
+          label="username"
+          autoComplete="username"
           errorMessage={formState.errors.username?.message}
         />
 
         <Input
           {...register("password")}
+          required
           type="password"
+          label="password"
+          autoComplete="current-password"
           errorMessage={formState.errors.password?.message}
         />
 

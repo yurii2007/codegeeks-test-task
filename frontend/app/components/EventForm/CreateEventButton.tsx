@@ -31,6 +31,7 @@ const CreateEventButton = () => {
           bottom: "5%",
           right: "5%",
           borderRadius: "50%",
+          backgroundColor: "#1D1D1D",
         }}
         onClick={toggleModal}
       >

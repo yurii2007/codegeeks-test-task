@@ -35,6 +35,7 @@ export async function generateMetadata({
   const event = await getEventById(params.eventId);
 
   if (!event) return {};
+
   return {
     title: event.title,
   };

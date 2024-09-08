@@ -3,7 +3,9 @@ import ClearFiltersButton from "./ClearFiltersButton";
 import DateFilter from "./DateFilter";
 import SearchFilter from "./SearchFilter";
 import Box from "@mui/material/Box";
-import React from "react";
+import React, { Suspense } from "react";
+
+import Loader from "@components/Loader";
 
 const EventsFilters = () => {
   return (
@@ -15,11 +17,13 @@ const EventsFilters = () => {
         justifyItems: "center",
       }}
     >
-      <SearchFilter />
-      <CategoryFilter />
-      <DateFilter filter="startDate" />
-      <DateFilter filter="endDate" />
-      <ClearFiltersButton />
+      <Suspense fallback={<Loader />}>
+        <SearchFilter />
+        <CategoryFilter />
+        <DateFilter filter="startDate" />
+        <DateFilter filter="endDate" />
+        <ClearFiltersButton />
+      </Suspense>
     </Box>
   );
 };

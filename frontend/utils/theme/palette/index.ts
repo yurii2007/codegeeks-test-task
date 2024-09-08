@@ -10,4 +10,14 @@ export const palette: PaletteOptions = {
   error: {
     main: "#990000",
   },
+  action: {
+    active: "#FF6600",
+  },
+  common: {
+    black: "#1D1D1D",
+    white: "#FFFFFF",
+  },
+  grey: {
+    "500": "#CECECE",
+  },
 };

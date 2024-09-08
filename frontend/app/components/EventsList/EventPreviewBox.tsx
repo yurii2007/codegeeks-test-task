@@ -18,7 +18,7 @@ const EventPreviewBox = ({ event }: EventPreviewBoxProps) => {
         style={{
           textDecoration: "none",
           display: " block",
-          width: "fit-content",
+          width: "100%",
         }}
         href={`/events/${event.id}`}
       >

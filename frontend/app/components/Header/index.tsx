@@ -23,7 +23,12 @@ const Header = () => {
       component="header"
       sx={{ display: "flex", backgroundColor: "#1D1D1D" }}
     >
-      <Toolbar sx={{ gap: "1.5rem" }}>
+      <Toolbar
+        sx={{
+          gap: "1.5rem",
+          justifyContent: { xs: "space-between", md: "flex-start" },
+        }}
+      >
         <IconButton
           color="inherit"
           aria-label="open menu"

@@ -7,7 +7,7 @@ export interface IEvent {
   title: string;
   date: Date;
   description: string;
-  category: typeof Categories;
+  category: (typeof Categories)[number];
 }
 
 export interface ICreateEventData {
@@ -17,7 +17,7 @@ export interface ICreateEventData {
   description: string;
 
   location: { latitude: number; longitude: number };
-  category: typeof Categories;
+  category: (typeof Categories)[number];
 }
 
 export interface IUpdateEventData {
@@ -27,12 +27,12 @@ export interface IUpdateEventData {
   description?: string;
 
   location?: { latitude: number; longitude: number };
-  category?: typeof Categories;
+  category?: (typeof Categories)[number];
 }
 
 export interface IGetFilterredEventsQuery {
   startDate?: Date;
   endDate?: Date;
-  category?: keyof typeof Categories;
+  category?: (typeof Categories)[number];
   search?: string;
 }

@@ -75,14 +75,17 @@ const LoginForm = React.forwardRef<HTMLFormElement, LoginFormProps>(
           disabled={loading}
           required
           label="username"
+          autoComplete="username"
           errorMessage={formState.errors.username?.message}
         />
+
         <Input
           {...register("password")}
           disabled={loading}
           required
           type="password"
           label="password"
+          autoComplete="current-password"
           errorMessage={formState.errors.password?.message}
         />
 
