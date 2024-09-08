@@ -8,9 +8,18 @@ import { Categories } from "types/general.types";
 
 import useUrlParams from "@hooks/useUrlParam";
 
+const categoryOptions = [...Categories, "All"];
+
 const CategoryFilter = () => {
   const [search, setSearch] = useUrlParams("category");
-  const [value, setValue] = useState<string>(search ?? "all");
+  const [value, setValue] = useState<string>(
+    search &&
+      categoryOptions.some(
+        (category) => category.toLowerCase() === search.trim().toLowerCase(),
+      )
+      ? search
+      : "all",
+  );
 
   const onChange = (e: SelectChangeEvent<string>) => setValue(e.target.value);
 
@@ -24,7 +33,7 @@ const CategoryFilter = () => {
 
   return (
     <Select onChange={onChange} value={value}>
-      {[...Categories, "All"].map((category) => (
+      {categoryOptions.map((category) => (
         <MenuItem key={category} value={category.toLowerCase()}>
           {category}
         </MenuItem>

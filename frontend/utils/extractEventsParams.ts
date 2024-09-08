@@ -1,3 +1,4 @@
+import isValidDate from "./isValidDate";
 import { IGetFilterredEventsQuery } from "types/event.type";
 import { Categories } from "types/general.types";
 
@@ -15,20 +16,14 @@ export const extractEventsParams = (params: IGetFilterredEventsQuery = {}) => {
   if (params.hasOwnProperty("search"))
     searchParams.append("search", params.search?.trim()?.toLowerCase() ?? "");
 
-  if (
-    params.hasOwnProperty("startDate") &&
-    !isNaN(new Date(params.startDate ?? "").getMilliseconds())
-  ) {
+  if (params.hasOwnProperty("startDate") && isValidDate(params.startDate)) {
     searchParams.append(
       "startDate",
       new Date(params.startDate ?? "").toISOString(),
     );
   }
 
-  if (
-    params.hasOwnProperty("endDate") &&
-    !isNaN(new Date(params.endDate ?? "").getMilliseconds())
-  ) {
+  if (params.hasOwnProperty("endDate") && isValidDate(params.endDate)) {
     searchParams.append(
       "endDate",
       new Date(params.endDate ?? "").toISOString(),

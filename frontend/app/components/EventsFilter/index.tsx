@@ -1,5 +1,6 @@
 import CategoryFilter from "./CategoryFilter";
 import ClearFiltersButton from "./ClearFiltersButton";
+import DateFilter from "./DateFilter";
 import SearchFilter from "./SearchFilter";
 import Box from "@mui/material/Box";
 import React from "react";
@@ -15,8 +16,8 @@ const EventsFilters = () => {
     >
       <SearchFilter />
       <CategoryFilter />
-      <div>datepicker</div>
-      <div>datepciker</div>
+      <DateFilter filter="startDate" />
+      <DateFilter filter="endDate" />
       <ClearFiltersButton />
     </Box>
   );

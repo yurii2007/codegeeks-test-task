@@ -22,7 +22,7 @@ const SearchFilter = () => {
     [value],
   );
 
-  return <TextField onChange={onChange} value={value} />;
+  return <TextField onChange={onChange} value={value} label="Search" />;
 };
 
 export default SearchFilter;
