@@ -9,6 +9,7 @@ import theme from "@utils/theme";
 
 import Header from "@components/Header";
 import ToasterProvider from "@components/Toaster";
+import { MapProvider } from "@components/providers/MapProvider";
 
 import "./globals.css";
 
@@ -32,13 +33,15 @@ export default function RootLayout({
         <AppRouterCacheProvider options={{ key: "css", prepend: true }}>
           <ThemeProvider theme={theme}>
             <AuthProvider>
-              <Header />
-              <Box
-                component="main"
-                sx={{ marginTop: "88px", padding: ".5rem 1rem" }}
-              >
-                {children}
-              </Box>
+              <MapProvider>
+                <Header />
+                <Box
+                  component="main"
+                  sx={{ marginTop: "88px", padding: ".5rem 1rem" }}
+                >
+                  {children}
+                </Box>
+              </MapProvider>
               {auth}
             </AuthProvider>
           </ThemeProvider>

@@ -1,5 +1,6 @@
 "use client";
 
+import LocationPicker from "./LocationPicker";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -8,7 +9,7 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import TextField from "@mui/material/TextField";
 import createEvent from "app/events/actions/createEvent";
 import updateEvent from "app/events/actions/updateEvent";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { ICreateEventData, IEvent } from "types/event.type";
@@ -51,7 +52,8 @@ const EventForm = ({ eventId, initialData, afterSubmit }: EventFormProps) => {
           },
     });
   const [loading, setLoading] = useState<boolean>(false);
-  watch("date");
+
+  watch(["date", "location"]);
 
   const submit: SubmitHandler<z.infer<typeof createEventFormScheme>> = async (
     data: ICreateEventData,
@@ -73,6 +75,12 @@ const EventForm = ({ eventId, initialData, afterSubmit }: EventFormProps) => {
       setLoading(false);
     }
   };
+
+  const handleLocationChange = useCallback(
+    (location: { latitude: number; longitude: number }) =>
+      setValue("location", location),
+    [setValue],
+  );
 
   return (
     <Box
@@ -134,6 +142,11 @@ const EventForm = ({ eventId, initialData, afterSubmit }: EventFormProps) => {
         customInput={<OutlinedInput fullWidth />}
         enableTabLoop={false}
         selected={getValues().date}
+      />
+
+      <LocationPicker
+        selectedPosition={getValues().location}
+        setSelectedPosition={handleLocationChange}
       />
 
       <Button disabled={loading} type="submit" variant="contained">
