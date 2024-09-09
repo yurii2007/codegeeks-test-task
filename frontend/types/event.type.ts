@@ -8,6 +8,7 @@ export interface IEvent {
   date: Date;
   description: string;
   category: (typeof Categories)[number];
+  location: { latitude: number; longitude: number };
 }
 
 export interface ICreateEventData {

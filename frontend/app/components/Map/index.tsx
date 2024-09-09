@@ -17,8 +17,8 @@ const defaultMapOptions = {
 };
 
 const defaultMapCenter = {
-  lat: 35.8799866,
-  lng: 76.5048004,
+  lat: 49.8397,
+  lng: 24.0297,
 };
 
 interface MapComponentProps extends GoogleMapProps {

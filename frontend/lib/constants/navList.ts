@@ -1,5 +1,5 @@
 export const navList = [
   { label: "Home", path: "/" },
   { label: "Events", path: "/events" },
-  { label: "Events Map", path: "#" },
+  { label: "Events Map", path: "/events/map" },
 ];
